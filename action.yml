@@ -1,0 +1,30 @@
+# turla-lab-targets/lab-helper-action — v1.0.0 (BENIGN, original)
+#
+# A deliberately small, legitimate composite action used by the CI/CD
+# Compromise Lab (scenario 04 — mutable action tag hijack). It stands in for
+# any third-party deploy-helper action a workflow might pull in by tag.
+#
+# This is the TRUSTED version a maintainer reviews before writing
+# `uses: turla-lab-targets/lab-helper-action@v1` in their workflow.
+# The lab later force-moves the v1 tag to a compromised commit to show how a
+# mutable tag silently changes what the consuming workflow runs.
+
+name: "Lab Helper Action"
+description: "Minimal deploy helper (lab fixture for scenario 04)."
+inputs:
+  target:
+    description: "Deployment target name."
+    required: true
+  token:
+    description: "Deploy token (dummy value in the lab)."
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Deploy
+      shell: bash
+      run: |
+        echo "lab-helper-action v1.0.0 (benign)"
+        echo "Deploying to '${{ inputs.target }}'..."
+        echo "Deployment complete. No secrets read, nothing exfiltrated."
